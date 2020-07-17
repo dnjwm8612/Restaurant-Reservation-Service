@@ -31,6 +31,10 @@ public class Restaurant {
 	public String getInformation() {
 		return name +" in "+ address ;
 	}
+	
+	public List<MenuItem> getMenuItems(){
+		return menuItems;
+	}
 
 	public void addMenuItem(MenuItem menuItem) {
 		menuItems.add(menuItem);
@@ -38,7 +42,7 @@ public class Restaurant {
 	
 	public void setMenuItem(List<MenuItem> menuItems) {
 		for(MenuItem menuItem : menuItems) {
-			menuItems.add(menuItem);		
+			addMenuItem(menuItem);
 		}
 	}
 

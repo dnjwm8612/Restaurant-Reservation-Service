@@ -13,7 +13,9 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import kr.co.test.eatgo.application.RestaurantService;
 import kr.co.test.eatgo.domain.MenuItemRepository;
+import kr.co.test.eatgo.domain.MenuItemRepositoryImpl;
 import kr.co.test.eatgo.domain.RestaurantRepository;
 import kr.co.test.eatgo.domain.RestaurantRepositoryImpl;
 
@@ -27,8 +29,11 @@ public class RestaurantControllerTest {
 	@SpyBean(RestaurantRepositoryImpl.class)
 	private RestaurantRepository restaurantrepository;
 	
-	@SpyBean(MenuItemRepository.class)
+	@SpyBean(MenuItemRepositoryImpl.class)
 	private MenuItemRepository menuItemRepository;
+	
+	@SpyBean(RestaurantService.class)
+	private RestaurantService restaurantService;
 	
 	@Test
 	public void list() throws Exception {
