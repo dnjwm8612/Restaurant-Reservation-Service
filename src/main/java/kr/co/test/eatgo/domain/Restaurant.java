@@ -1,9 +1,13 @@
 package kr.co.test.eatgo.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Restaurant {
 	private Long id;
 	private String name;
 	private String address;
+	private List<MenuItem> menuItems = new ArrayList<MenuItem>();
 
 	
 	public Restaurant(Long id, String name, String address) {
@@ -26,6 +30,16 @@ public class Restaurant {
 	
 	public String getInformation() {
 		return name +" in "+ address ;
+	}
+
+	public void addMenuItem(MenuItem menuItem) {
+		menuItems.add(menuItem);
+	}
+	
+	public void setMenuItem(List<MenuItem> menuItems) {
+		for(MenuItem menuItem : menuItems) {
+			menuItems.add(menuItem);		
+		}
 	}
 
 }

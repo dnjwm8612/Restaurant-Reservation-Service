@@ -13,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import kr.co.test.eatgo.domain.MenuItemRepository;
 import kr.co.test.eatgo.domain.RestaurantRepository;
 import kr.co.test.eatgo.domain.RestaurantRepositoryImpl;
 
@@ -25,6 +26,9 @@ public class RestaurantControllerTest {
 	
 	@SpyBean(RestaurantRepositoryImpl.class)
 	private RestaurantRepository restaurantrepository;
+	
+	@SpyBean(MenuItemRepository.class)
+	private MenuItemRepository menuItemRepository;
 	
 	@Test
 	public void list() throws Exception {
@@ -39,7 +43,8 @@ public class RestaurantControllerTest {
 		mvc.perform(get("/restaurants/1004"))
 		.andExpect(status().isOk())
 		.andExpect(content().string(containsString("\"id\":1004")))
-		.andExpect(content().string(containsString("\"name\":\"Bob zip\"")));
+		.andExpect(content().string(containsString("\"name\":\"Bob zip\"")))
+		.andExpect(content().string(containsString("Kimchi")));
 		
 		mvc.perform(get("/restaurants/2020"))
 		.andExpect(status().isOk())
