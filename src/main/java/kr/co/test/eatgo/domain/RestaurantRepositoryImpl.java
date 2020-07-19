@@ -12,7 +12,6 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 	public RestaurantRepositoryImpl() {
 		restaurants.add(new Restaurant(1004L, "Bob zip", "Seoul"));
 		restaurants.add(new Restaurant(2020L, "Cyber Food", "Seoul"));
-		
 	}
 
 	@Override

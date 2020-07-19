@@ -5,10 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kr.co.test.eatgo.domain.MenuItem;
-import kr.co.test.eatgo.domain.MenuItemRepository;
-import kr.co.test.eatgo.domain.Restaurant;
-import kr.co.test.eatgo.domain.RestaurantRepository;
+import kr.co.test.eatgo.domain.*;
 
 @Service
 public class RestaurantService {
@@ -26,14 +23,15 @@ public class RestaurantService {
 
 	public List<Restaurant> getRestaurants(){
 		List<Restaurant> restaurants = restaurantRepository.findAll();
+		
 		return restaurants;
 	}
 	
 	public Restaurant getRestaurant(Long id) {
 		Restaurant restaurant = restaurantRepository.findById(id);
 		
-		List<MenuItem> menuItem = menuItemRepository.findAllByRestaurantId(id);
-		restaurant.setMenuItem(menuItem);
+		List<MenuItem> menuItems = menuItemRepository.findAllByRestaurantId(id);
+		restaurant.setMenuItems(menuItems);
 				
 		return restaurant;
 	}

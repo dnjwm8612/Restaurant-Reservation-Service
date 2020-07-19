@@ -8,15 +8,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class MenuItemRepositoryImpl implements MenuItemRepository{
 
-	private List<MenuItem> menuItem = new ArrayList<MenuItem>();
+	private List<MenuItem> menuItems = new ArrayList<MenuItem>();
 	
 	public MenuItemRepositoryImpl() {
-		menuItem.add(new MenuItem("Kimchi"));
+		menuItems.add(new MenuItem("Kimchi"));
 	}
 	
 	@Override
-	public List<MenuItem> findAllByRestaurantId(Long Id) {
-		return menuItem;
+	public List<MenuItem> findAllByRestaurantId(Long restaurantId) {
+		return menuItems;
 	}
 
 

@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface MenuItemRepository {
 
-	List<MenuItem>findAllByRestaurantId(Long Id);
+	List<MenuItem>findAllByRestaurantId(Long restaurantId);
 
 }
