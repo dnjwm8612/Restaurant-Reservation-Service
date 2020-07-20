@@ -24,6 +24,7 @@ public class RestaurantServiceTest {
 	@Mock
 	private MenuItemRepository menuItemRepository;
 	
+	//@Before 인식 오류 인하여 메소드 직접 주입
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		

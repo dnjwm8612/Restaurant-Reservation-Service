@@ -3,7 +3,9 @@ package kr.co.test.eatgo.interfaces;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
@@ -65,4 +67,10 @@ public class RestaurantControllerTest {
 		.andExpect(content().string(containsString("\"name\":\"Cyber Food\"")));
 	}
 
+	@Test
+	public void create() throws Exception {
+		mvc.perform(post("/restaurants"))
+		.andExpect(status().isCreated())
+		.andExpect(header().string("location", "/restaurants/1234"));
+	}
 }
