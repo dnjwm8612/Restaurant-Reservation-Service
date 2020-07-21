@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.test.eatgo.application.RestaurantService;
@@ -33,9 +34,15 @@ public class RestaurantController {
 	}
 	
 	@PostMapping("/restaurants")
-	public ResponseEntity<?> create() throws URISyntaxException{
+	public ResponseEntity<?> create(@RequestBody Restaurant resource) throws URISyntaxException{
+		String name = resource.getName();
+		String address = resource.getAddress();
+		
+		Restaurant restaurant = new Restaurant(1234L,  name, address);
+		restaurantService.addRestaurant(restaurant);
+		
 		URI location = new URI("/restaurants/1234");
-		return ResponseEntity.created(location).body("");
+		return ResponseEntity.created(location).body("{}");
 	}
 	
 }

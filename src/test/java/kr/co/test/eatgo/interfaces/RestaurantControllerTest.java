@@ -2,6 +2,8 @@ package kr.co.test.eatgo.interfaces;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -16,6 +18,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -69,8 +72,12 @@ public class RestaurantControllerTest {
 
 	@Test
 	public void create() throws Exception {
-		mvc.perform(post("/restaurants"))
+		mvc.perform(post("/restaurants").contentType(MediaType.APPLICATION_JSON)
+				.content("{\"name\":\"BeRyong\", \"address\":\"Busan\"}"))
 		.andExpect(status().isCreated())
-		.andExpect(header().string("location", "/restaurants/1234"));
-	}
+		.andExpect(header().string("location", "/restaurants/1234"))
+		.andExpect(content().string("{}"));
+		
+		verify(restaurantService).addRestaurant(any());
+		}
 }

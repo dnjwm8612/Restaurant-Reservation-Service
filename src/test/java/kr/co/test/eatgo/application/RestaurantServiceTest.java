@@ -1,18 +1,22 @@
 package kr.co.test.eatgo.application;
 
 
-import kr.co.test.eatgo.domain.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.ArgumentMatchers.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.BDDMockito.given;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.*;
+import org.mockito.MockitoAnnotations;
+
+import kr.co.test.eatgo.domain.MenuItem;
+import kr.co.test.eatgo.domain.MenuItemRepository;
+import kr.co.test.eatgo.domain.Restaurant;
+import kr.co.test.eatgo.domain.RestaurantRepository;
 
 
 public class RestaurantServiceTest {
@@ -68,5 +72,18 @@ public class RestaurantServiceTest {
 		MenuItem menuItem = restaurant.getMenuItems().get(0);
 		
 		assertThat(menuItem.getName(), is("Kimchi"));
+	}
+	
+	@Test 
+	public void addRestaurant() {
+		setUp();
+		Restaurant restaurant = new Restaurant("BeRyong", "Busan");
+		Restaurant saved = new Restaurant(1234L,  "BeRyong", "Busan");
+		
+		given(restaurantRepository.save(any())).willReturn(restaurant);
+		
+		Restaurant created = restaurantService.addRestaurant(saved);
+		
+		assertThat(created.getId(), is(1234L));
 	}
 }
