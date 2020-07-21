@@ -21,7 +21,7 @@ class RestaurantRepositoryImplTest {
 			
 		int newCount =repository.findAll().size();
 		
-		assertThat(newCount -oldCount, is(1));
+		assertThat(newCount - oldCount, is(1));
 		
 		}
 	}

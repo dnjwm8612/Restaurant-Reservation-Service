@@ -78,11 +78,11 @@ public class RestaurantServiceTest {
 	public void addRestaurant() {
 		setUp();
 		Restaurant restaurant = new Restaurant("BeRyong", "Busan");
-		Restaurant saved = new Restaurant(1234L,  "BeRyong", "Busan");
+		Restaurant saved = new Restaurant(1234L, "BeRyong", "Busan");
 		
-		given(restaurantRepository.save(any())).willReturn(restaurant);
+		given(restaurantRepository.save(any())).willReturn(saved);
 		
-		Restaurant created = restaurantService.addRestaurant(saved);
+		Restaurant created = restaurantService.addRestaurant(restaurant);
 		
 		assertThat(created.getId(), is(1234L));
 	}
