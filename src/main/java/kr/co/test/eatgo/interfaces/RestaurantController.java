@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,4 +46,11 @@ public class RestaurantController {
 		return ResponseEntity.created(location).body("{}");
 	}
 	
+	@PatchMapping("/restaurants/{id}")
+	public String update(@PathVariable("id") Long id, @RequestBody Restaurant restaurant) {
+			String name =restaurant.getName();
+			String address = restaurant.getAddress();
+			restaurantService.updateRestaurant(id, name, address);
+		return null;
+	}
 }

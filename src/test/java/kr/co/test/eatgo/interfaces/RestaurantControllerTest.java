@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.ArgumentMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -80,4 +81,14 @@ public class RestaurantControllerTest {
 		
 		verify(restaurantService).addRestaurant(any());
 		}
+	
+	@Test
+	public void update() throws Exception {
+		mvc.perform(patch("/restaurants/1004").contentType(MediaType.APPLICATION_JSON)
+				.content("{\"name\":\"JOKER Bar\", \"address\":\"Busan\"}"))
+		.andExpect(status().isOk());
+		
+		verify(restaurantService).updateRestaurant(1004L,"JOKER Bar", "Busan");
+		
+	}
 }
