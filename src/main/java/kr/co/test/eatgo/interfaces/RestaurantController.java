@@ -4,6 +4,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +37,7 @@ public class RestaurantController {
 	}
 	
 	@PostMapping("/restaurants")
-	public ResponseEntity<?> create(@RequestBody Restaurant resource) throws URISyntaxException{
+	public ResponseEntity<?> create(@Valid @RequestBody Restaurant resource) throws URISyntaxException{
 		Restaurant restaurant = restaurantService.addRestaurant(Restaurant.builder()
 				.name(resource.getName()).address(resource.getAddress()).build());
 		
@@ -44,7 +46,7 @@ public class RestaurantController {
 	}
 	
 	@PatchMapping("/restaurants/{id}")
-	public String update(@PathVariable("id") Long id, @RequestBody Restaurant restaurant) {
+	public String update(@Valid @PathVariable("id") Long id, @RequestBody Restaurant restaurant) {
 			String name =restaurant.getName();
 			String address = restaurant.getAddress();
 			restaurantService.updateRestaurant(id, name, address);
