@@ -4,7 +4,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class MenuItem {
 	
 	@Id
@@ -14,13 +25,5 @@ public class MenuItem {
 	private Long restaurantId;
 	
 	private String name;
-	
-	public MenuItem(String name) {
-		this.name = name;
-	}
-	
-	public String getName() {
-		return name;
-	}
 	
 }
