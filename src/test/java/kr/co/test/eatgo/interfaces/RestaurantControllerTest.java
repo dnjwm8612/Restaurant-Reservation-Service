@@ -29,6 +29,7 @@ import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 import kr.co.test.eatgo.application.RestaurantService;
 import kr.co.test.eatgo.domain.MenuItem;
 import kr.co.test.eatgo.domain.Restaurant;
+import kr.co.test.eatgo.domain.RestaurantNotFoundException;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(RestaurantController.class)
@@ -54,7 +55,7 @@ public class RestaurantControllerTest {
 	}
 	
 	@Test 
-	public void detail() throws Exception {
+	public void detailWithExisted() throws Exception {
 		Restaurant restaurant = Restaurant.builder().id(1004L).name("JOKER House").address("Seoul").build();
 		
 		MenuItem menuItem = MenuItem.builder().name("Kimchi").build();
@@ -77,6 +78,14 @@ public class RestaurantControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(content().string(containsString("\"id\":2020")))
 		.andExpect(content().string(containsString("\"name\":\"Cyber Food\"")));
+	}
+	
+	@Test
+	public void deteleWithNotExisted() throws Exception {
+		given(restaurantService.getRestaurant(404L)).willThrow(new RestaurantNotFoundException(404L));
+		mvc.perform(get("/restaurants/404"))
+		.andExpect(status().isNotFound())
+		.andExpect(content().string("{}"));
 	}
 
 	@Test
