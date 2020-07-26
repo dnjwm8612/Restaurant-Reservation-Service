@@ -18,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 import kr.co.test.eatgo.domain.MenuItem;
 import kr.co.test.eatgo.domain.MenuItemRepository;
 import kr.co.test.eatgo.domain.Restaurant;
+import kr.co.test.eatgo.domain.RestaurantNotFoundException;
 import kr.co.test.eatgo.domain.RestaurantRepository;
 import net.bytebuddy.agent.builder.AgentBuilder.RawMatcher.Inversion;
 
@@ -66,7 +67,7 @@ public class RestaurantServiceTest {
 	}
 	
 	@Test
-	public void getRestaurant(){
+	public void getRestaurantWithExisted(){
 		setUp();
 		Restaurant restaurant = restaurantService.getRestaurant(1004L);
 		
@@ -76,6 +77,13 @@ public class RestaurantServiceTest {
 		
 		assertThat(menuItem.getName(), is("Kimchi"));
 	}
+	
+	@org.junit.Test(expected =  RestaurantNotFoundException.class)
+	public void getRestaurantWithNotExisted(){
+		setUp();
+		restaurantService.getRestaurant(404L);
+		}
+	
 	
 	@Test 
 	public void addRestaurant() {
