@@ -3,14 +3,13 @@ package kr.co.test.eatgo.application;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.ArgumentMatchers.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.aopalliance.intercept.Invocation;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -20,7 +19,6 @@ import kr.co.test.eatgo.domain.MenuItemRepository;
 import kr.co.test.eatgo.domain.Restaurant;
 import kr.co.test.eatgo.domain.RestaurantNotFoundException;
 import kr.co.test.eatgo.domain.RestaurantRepository;
-import net.bytebuddy.agent.builder.AgentBuilder.RawMatcher.Inversion;
 
 
 public class RestaurantServiceTest {
