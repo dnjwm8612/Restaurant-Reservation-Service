@@ -3,6 +3,9 @@ package kr.co.test.eatgo.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,5 +28,9 @@ public class MenuItem {
 	private Long restaurantId;
 	
 	private String name;
+	
+	@Transient
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private boolean destroy;
 	
 }

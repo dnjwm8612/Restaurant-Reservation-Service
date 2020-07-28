@@ -18,7 +18,7 @@ public class MenuItemController {
 	private MenuItemService menuItemService;
 	
 	@PatchMapping("restaurants/{restaurantId}/menuitems")
-	public String bulkUpdate(@PathVariable("restaurant") Long restaurantId,@RequestBody List<MenuItem> menuItems) {
+	public String bulkUpdate(@PathVariable("restaurantId") Long restaurantId,@RequestBody List<MenuItem> menuItems) {
 		menuItemService.bulkUpdate(restaurantId,menuItems);
 		return "";
 	}
