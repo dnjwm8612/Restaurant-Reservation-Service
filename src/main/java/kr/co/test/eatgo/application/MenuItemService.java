@@ -3,10 +3,12 @@ package kr.co.test.eatgo.application;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import kr.co.test.eatgo.domain.MenuItem;
 import kr.co.test.eatgo.domain.MenuItemRepository;
 
+@Service
 public class MenuItemService {
 
 	@Autowired
