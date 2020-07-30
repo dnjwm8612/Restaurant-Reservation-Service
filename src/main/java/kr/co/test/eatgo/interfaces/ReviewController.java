@@ -3,9 +3,13 @@ package kr.co.test.eatgo.interfaces;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.test.eatgo.application.ReviewService;
@@ -18,11 +22,10 @@ public class ReviewController {
 	private ReviewService reviewService;
 	
 	@PostMapping("/restaurants/{restaurantId}/reviews")
-	public ResponseEntity<?> create() throws URISyntaxException {
-		Review review = Review.builder().build();
+	public ResponseEntity<?> create(@PathVariable("restaurantId") Long restaurantId, @Valid @RequestBody Review resource ) throws URISyntaxException {		
+		Review review = reviewService.addReview(resource);
 		
-		reviewService.addReview(review);
-		
-		return ResponseEntity.created(new URI("/restaurants/1/reviews")).body("{}");
+		URI uri = new URI("/restaurants/"+ restaurantId +"/reviews/"+review.getId());
+		return ResponseEntity.created(uri).body("{}");
 	}
 }
