@@ -32,4 +32,6 @@ public class Review {
 	
 	@NotEmpty
 	private String description;
+
+	private Long restaurantId; 
 }

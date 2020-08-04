@@ -12,15 +12,15 @@ import kr.co.test.eatgo.domain.*;
 @Service
 public class RestaurantService {
 	
-	@Autowired
-	RestaurantRepository restaurantRepository;
+	private RestaurantRepository restaurantRepository;
+	private MenuItemRepository menuItemRepository;
+	private ReviewRepository reviewRepository;
 	
 	@Autowired
-	MenuItemRepository menuItemRepository;
-	
-	public RestaurantService(RestaurantRepository restaurantRepository, MenuItemRepository menuItemRepository) {
+	public RestaurantService(RestaurantRepository restaurantRepository, MenuItemRepository menuItemRepository, ReviewRepository reviewRepository) {
 		this.restaurantRepository = restaurantRepository;
 		this.menuItemRepository = menuItemRepository;
+		this.reviewRepository= reviewRepository;
 	}
 
 	public List<Restaurant> getRestaurants(){
@@ -34,7 +34,10 @@ public class RestaurantService {
 		
 		List<MenuItem> menuItems = menuItemRepository.findAllByRestaurantId(id);
 		restaurant.setMenuItems(menuItems);
-				
+		
+		List<Review> review = reviewRepository.findAllByRestaurantId(id);
+		restaurant.setReviews(review);
+		
 		return restaurant;
 	}
 

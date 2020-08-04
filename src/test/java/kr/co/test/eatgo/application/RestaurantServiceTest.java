@@ -3,8 +3,9 @@ package kr.co.test.eatgo.application;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,8 @@ import kr.co.test.eatgo.domain.MenuItemRepository;
 import kr.co.test.eatgo.domain.Restaurant;
 import kr.co.test.eatgo.domain.RestaurantNotFoundException;
 import kr.co.test.eatgo.domain.RestaurantRepository;
+import kr.co.test.eatgo.domain.Review;
+import kr.co.test.eatgo.domain.ReviewRepository;
 
 
 public class RestaurantServiceTest {
@@ -30,14 +33,18 @@ public class RestaurantServiceTest {
 	@Mock
 	private MenuItemRepository menuItemRepository;
 	
+	@Mock
+	private ReviewRepository reviewRepository;
+	
 	//@Before 인식 오류 인하여 메소드 직접 주입
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		
 		mockRestaurnatRepository();
 		mockMenuItemRepository();
+		mockReviewRepository();
 		
-		restaurantService = new RestaurantService(restaurantRepository, menuItemRepository);
+		restaurantService = new RestaurantService(restaurantRepository, menuItemRepository, reviewRepository);
 	}
 
 	private void mockRestaurnatRepository() {
@@ -55,10 +62,18 @@ public class RestaurantServiceTest {
 		given(menuItemRepository.findAllByRestaurantId(1004L)).willReturn(menuItems);
 	}
 	
+	private void mockReviewRepository() {
+		List<Review> reviews = new ArrayList<Review>();  
+		reviews.add(Review.builder().name("BeRyong").score(1).description("Bad").build());
+		
+		given(reviewRepository.findAllByRestaurantId(1004L)).willReturn(reviews);
+	}
+	
 	@Test
 	public void getRestaurants() {
 		setUp();
 		List<Restaurant> restaurants = restaurantService.getRestaurants();
+		
 		Restaurant restaurant = restaurants.get(0);
 		
 		assertThat(restaurant.getId(), is(1004L));
@@ -69,11 +84,17 @@ public class RestaurantServiceTest {
 		setUp();
 		Restaurant restaurant = restaurantService.getRestaurant(1004L);
 		
+		verify(menuItemRepository).findAllByRestaurantId(eq(1004L));
+		verify(reviewRepository).findAllByRestaurantId(eq(1004L));
+		
 		assertThat(restaurant.getId(), is(1004L));
 	
 		MenuItem menuItem = restaurant.getMenuItems().get(0);
 		
+		Review review = restaurant.getReview().get(0);
+		
 		assertThat(menuItem.getName(), is("Kimchi"));
+		assertThat(review.getDescription(), is("Bad"));
 	}
 	
 	@org.junit.Test(expected =  RestaurantNotFoundException.class)

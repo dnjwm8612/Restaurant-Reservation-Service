@@ -1,6 +1,6 @@
 package kr.co.test.eatgo.interfaces;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -32,12 +32,12 @@ class ReviewControllerTest {
 	
 	@Test
 	public void createWithValidAttriutes() throws Exception {
-		given(reviewService.addReview(any())).willReturn(Review.builder().id(1004L).build());
+		given(reviewService.addReview(eq(1L), any())).willReturn(Review.builder().id(1004L).build());
 		
 		mvc.perform(post("/restaurants/1/reviews").contentType(MediaType.APPLICATION_JSON).content("{\"name\":\"JOKER\", \"score\":3, \"description\":\"Mat-it-da\"}"))
 		.andExpect(status().isCreated()).andExpect(header().string("location", "/restaurants/1/reviews/1004"));
 		
-		verify(reviewService).addReview(any());
+		verify(reviewService).addReview(eq(1L), any());
 	}
 	
 	@Test
@@ -45,6 +45,6 @@ class ReviewControllerTest {
 		mvc.perform(post("/restaurants/1/reviews").contentType(MediaType.APPLICATION_JSON).content("{}"))
 		.andExpect(status().isBadRequest());
 		
-		verify(reviewService, never()).addReview(any());
+		verify(reviewService, never()).addReview(eq(1L), any());
 	}
 }

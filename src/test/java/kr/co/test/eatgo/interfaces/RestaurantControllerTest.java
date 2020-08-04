@@ -28,6 +28,7 @@ import kr.co.test.eatgo.application.RestaurantService;
 import kr.co.test.eatgo.domain.MenuItem;
 import kr.co.test.eatgo.domain.Restaurant;
 import kr.co.test.eatgo.domain.RestaurantNotFoundException;
+import kr.co.test.eatgo.domain.Review;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(RestaurantController.class)
@@ -59,23 +60,21 @@ public class RestaurantControllerTest {
 		MenuItem menuItem = MenuItem.builder().name("Kimchi").build();
 		
 		restaurant.setMenuItems(Arrays.asList(menuItem));
+		Review review = Review.builder().name("JOKER").score(5).description("Great!").build();
 		
+		restaurant.setReviews(Arrays.asList(review));
 		
-		Restaurant restaurant2 = Restaurant.builder().id(2020L).name("Cyber Food").address("Seoul").build();
 		
 		given(restaurantService.getRestaurant(1004L)).willReturn(restaurant);
-		given(restaurantService.getRestaurant(2020L)).willReturn(restaurant2);
 		
 		mvc.perform(get("/restaurants/1004"))
 		.andExpect(status().isOk())
 		.andExpect(content().string(containsString("\"id\":1004")))
 		.andExpect(content().string(containsString("\"name\":\"JOKER House\"")))
-		.andExpect(content().string(containsString("Kimchi")));
+		.andExpect(content().string(containsString("Kimchi")))
+		.andExpect(content().string(containsString("Great!")));
 		
-		mvc.perform(get("/restaurants/2020"))
-		.andExpect(status().isOk())
-		.andExpect(content().string(containsString("\"id\":2020")))
-		.andExpect(content().string(containsString("\"name\":\"Cyber Food\"")));
+
 	}
 	
 	@Test
