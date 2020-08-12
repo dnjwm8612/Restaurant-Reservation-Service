@@ -1,6 +1,5 @@
 package kr.co.test.eatgo.application;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,14 @@ public class RegionService {
 	public List<Region> getRegions() {
 		List<Region> regions = regionRepository.findAll();
 		return regions;
+	}
+
+	public Region addRegion(String name) {
+		Region region = Region.builder().name(name).build();
+		
+		regionRepository.save(region);
+		
+		return region;
 	}
 
 }

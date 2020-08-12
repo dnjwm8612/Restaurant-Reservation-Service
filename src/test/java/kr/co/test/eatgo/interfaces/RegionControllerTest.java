@@ -3,6 +3,7 @@ package kr.co.test.eatgo.interfaces;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.mockito.BDDMockito.*;
 
@@ -43,4 +44,17 @@ class RegionControllerTest {
 			.andExpect(content().string(containsString("Seoul")));
 	}
 
+	@Test
+	public void create() throws Exception {
+		Region region = Region.builder().name("Seoul").build();
+		given(regionService.addRegion("Seoul")).willReturn(region);
+		
+		mvc.perform(post("/regions").content("{\"name\":\"Seoul\"}"))
+		.andExpect(status().isCreated())
+		.andExpect(content().string("{}"));
+		
+		verify(regionService).addRegion("Seoul");
+		
+	}
+	
 }
