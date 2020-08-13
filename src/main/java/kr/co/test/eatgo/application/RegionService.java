@@ -2,6 +2,8 @@ package kr.co.test.eatgo.application;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +11,7 @@ import kr.co.test.eatgo.domain.Region;
 import kr.co.test.eatgo.domain.RegionRepository;
 
 @Service
+@Transactional
 public class RegionService {
 
 	@Autowired
