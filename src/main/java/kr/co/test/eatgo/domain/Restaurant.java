@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -32,6 +33,10 @@ public class Restaurant {
 	@Setter
 	@NotEmpty
 	private String name;
+	
+	@NotNull
+	@Setter
+	private Long categoryId;
 	
 	@NotEmpty
 	private String address;

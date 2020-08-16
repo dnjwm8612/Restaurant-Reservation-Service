@@ -43,11 +43,11 @@ public class RestaurantControllerTest {
 	@Test
 	public void list() throws Exception {
 		List<Restaurant> restaurants = new ArrayList<Restaurant>();
-		restaurants.add(Restaurant.builder().id(1004L).name("JOKER House").address("Seoul").build());
+		restaurants.add(Restaurant.builder().id(1004L).categoryId(1L).name("JOKER House").address("Seoul").build());
 		
-		given(restaurantService.getRestaurants("Seoul")).willReturn(restaurants);
+		given(restaurantService.getRestaurants("Seoul", 1L)).willReturn(restaurants);
 		
-		mvc.perform(get("/restaurants?region=Seoul"))
+		mvc.perform(get("/restaurants?region=Seoul&categoryId=1"))
 		.andExpect(status().isOk())
 		.andExpect(content().string(containsString("\"id\":1004")))
 		.andExpect(content().string(containsString("\"name\":\"JOKER House\"")));
@@ -93,7 +93,7 @@ public class RestaurantControllerTest {
 		});
 		
 		mvc.perform(post("/restaurants").contentType(MediaType.APPLICATION_JSON)
-				.content("{\"name\":\"BeRyong\", \"address\":\"Busan\"}"))
+				.content("{\"categoryId\":1, \"name\":\"BeRyong\", \"address\":\"Busan\"}"))
 		.andExpect(status().isCreated())
 		.andExpect(header().string("location", "/restaurants/1234"))
 		.andExpect(content().string("{}"));
@@ -104,14 +104,14 @@ public class RestaurantControllerTest {
 	@Test
 	public void createWithInvalidData() throws Exception {
 		mvc.perform(post("/restaurants").contentType(MediaType.APPLICATION_JSON)
-				.content("{\"name\":\"\", \"address\":\"\"}"))
+				.content("{\"categoryId\":,\"name\":\"\", \"address\":\"\"}"))
 				.andExpect(status().isBadRequest());
 		}
 	
 	@Test
 	public void updateWithValidData() throws Exception {
 		mvc.perform(patch("/restaurants/1004").contentType(MediaType.APPLICATION_JSON)
-				.content("{\"name\":\"JOKER Bar\", \"address\":\"Busan\"}"))
+				.content("{\"categoryId\":1, \"name\":\"JOKER Bar\", \"address\":\"Busan\"}"))
 		.andExpect(status().isOk());
 		
 		verify(restaurantService).updateRestaurant(1004L,"JOKER Bar", "Busan");
@@ -119,7 +119,7 @@ public class RestaurantControllerTest {
 	}
 	public void updateWithInvalidData() throws Exception {
 		mvc.perform(patch("/restaurants/1004").contentType(MediaType.APPLICATION_JSON)
-				.content("{\"name\":\"\", \"address\":\"\"}"))
+				.content("{\"categoryId\":, \"name\":\"\", \"address\":\"\"}"))
 		.andExpect(status().isBadRequest());
 		
 	}

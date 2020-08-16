@@ -23,10 +23,10 @@ public class RestaurantService {
 		this.reviewRepository= reviewRepository;
 	}
 
-	public List<Restaurant> getRestaurants(String region){
+	public List<Restaurant> getRestaurants(String region, Long categoryId){
 		
 		
-		List<Restaurant> restaurants = restaurantRepository.findAllByAddressContaining(region);
+		List<Restaurant> restaurants = restaurantRepository.findAllByAddressContainingAndCategoryId(region, categoryId);
 		
 		return restaurants;
 	}
