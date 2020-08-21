@@ -1,8 +1,11 @@
 package kr.co.test.eatgo.interfaces;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -14,6 +17,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -41,5 +45,35 @@ class UserControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(content().string(containsString("tester")));
 	}
+	
+	@Test
+	public void create() throws Exception {
+		String name ="admin";
+		String email = "admin@example.com";
+		
+		User user = User.builder().name(name).email(email).build();
+		given(userSerivce.addUser(name, email)).willReturn(user);
+		
+		mvc.perform(post("/users").contentType(MediaType.APPLICATION_JSON).content("{\"name\":\"admin\", \"email\":\"admin@example.com\"}"))
+		.andExpect(status().isCreated())
+		.andExpect(content().string(containsString("")));
+		
+		verify(userSerivce).addUser(user.getName(), user.getEmail());
+	} 
 
+	@Test
+	public void update() throws Exception {
+		mvc.perform(patch("/users/1004").contentType(MediaType.APPLICATION_JSON).content("{\"id\": 1004,\"name\":\"admin\", \"email\":\"admin@example.com\", \"level\": 100}"))
+		.andExpect(status().isOk())
+		.andExpect(content().string(containsString("")));
+		
+		Long id = 1004L;
+		String name ="admin";
+		String email = "admin@example.com";
+		Long level = 100L;
+		
+		verify(userSerivce).updateUser(eq(id), eq(name), eq(email), eq(level));
+		
+	}
+	
 }
