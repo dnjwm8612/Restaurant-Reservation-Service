@@ -3,6 +3,7 @@ package kr.co.test.eatgo.interfaces;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,6 +21,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import kr.co.test.eatgo.application.UserService;
 import kr.co.test.eatgo.domain.User;
@@ -74,6 +76,14 @@ class UserControllerTest {
 		
 		verify(userSerivce).updateUser(eq(id), eq(name), eq(email), eq(level));
 		
+	}
+	
+	@Test
+	public void deactivete() throws Exception {
+		mvc.perform(delete("/users/1004"))
+		.andExpect(status().isOk());
+
+		verify(userSerivce).deactiveUser(1004L);
 	}
 	
 }

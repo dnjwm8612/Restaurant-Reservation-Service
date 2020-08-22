@@ -9,7 +9,7 @@ public interface UserRepository extends CrudRepository<User, Long>{
 	
 	List<User> findAll();
 
-	User save(String name, String email);
+	User save(User user);
 	
 	Optional<User> findById(Long id);
 	

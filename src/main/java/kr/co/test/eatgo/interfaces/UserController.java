@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,8 +43,12 @@ public class UserController {
 	@PatchMapping("/users/{userId}")
 	public String update(@PathVariable("userId") Long id, @RequestBody User resource) {
 		User user = userService.updateUser(id, resource.getName(), resource.getEmail(), resource.getLevel());
-		
-		
+		return "{}";
+	}
+	
+	@DeleteMapping("/users/{id}")
+	public String deactiveUser(@PathVariable("id") Long id) {
+		userService.deactiveUser(id);
 		return "{}";
 	}
 }

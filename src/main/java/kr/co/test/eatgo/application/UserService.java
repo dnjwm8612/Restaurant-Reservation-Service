@@ -45,4 +45,10 @@ public class UserService {
 		return user;
 	}
 
+	public User deactiveUser(Long id) {
+		User user = userRepository.findById(id).orElse(null);
+		user.deactivate();
+		return user;
+	}
+
 }
