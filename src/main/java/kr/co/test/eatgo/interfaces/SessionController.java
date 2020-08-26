@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.test.eatgo.application.UserCustomerService;
+import kr.co.test.eatgo.domain.User;
 
 @RestController
 public class SessionController {
@@ -19,11 +20,13 @@ public class SessionController {
 	
 	@PostMapping("/session")
 	public ResponseEntity<?> create(@RequestBody SessionRequestDto resource) throws URISyntaxException{
-		String accessToken = "ACCESSTOKEN";
+		
 		String email = resource.getEmail();
 		String password= resource.getPassword();
 		
-		userCustomerService.authenticate(email, password);
+		User user = userCustomerService.authenticate(email, password);
+		
+		String accessToken = user.getAccessToken();
 		
 		String url = "/session"; 
 		

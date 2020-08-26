@@ -3,6 +3,7 @@ package kr.co.test.eatgo.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -32,6 +33,7 @@ public class Review {
 	
 	@NotEmpty
 	private String description;
-
+	
+	@Transient
 	private Long restaurantId; 
 }

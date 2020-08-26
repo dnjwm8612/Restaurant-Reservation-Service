@@ -35,7 +35,8 @@ class ReviewControllerTest {
 		given(reviewService.addReview(eq(1L), any())).willReturn(Review.builder().id(1004L).build());
 		
 		mvc.perform(post("/restaurants/1/reviews").contentType(MediaType.APPLICATION_JSON).content("{\"name\":\"JOKER\", \"score\":3, \"description\":\"Mat-it-da\"}"))
-		.andExpect(status().isCreated()).andExpect(header().string("location", "/restaurants/1/reviews/1004"));
+		.andExpect(status().isCreated())
+		.andExpect(header().string("location", "/restaurants/1/reviews/1004"));
 		
 		verify(reviewService).addReview(eq(1L), any());
 	}

@@ -4,17 +4,21 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import kr.co.test.eatgo.domain.User;
 import kr.co.test.eatgo.domain.UserCustomerRepository;
 
 public class UserCustomerService {
 
+	PasswordEncoder passwordEncoder;
+	
 	@Autowired
 	UserCustomerRepository userCustomerRepository;
 	
-	public UserCustomerService(UserCustomerRepository userCustomerRepository) {
+	public UserCustomerService(UserCustomerRepository userCustomerRepository, PasswordEncoder passwordEncoder) {
 		this.userCustomerRepository = userCustomerRepository; 
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	public User registerUser(String email, String name, String password) {
@@ -23,15 +27,16 @@ public class UserCustomerService {
 			throw new EmailUserExistedException(email);
 		}
 		
-		BCryptPasswordEncoder passwordEncoder =new BCryptPasswordEncoder();
-		String encodedPassword = passwordEncoder.encode(password);
-		
-		User user = User.builder().id(1004L).email("tester@example.com").name("Tester").password(encodedPassword).build(); 
+		User user = User.builder().id(1004L).email("tester@example.com").name("Tester").password(passwordEncoder.encode(password)).build(); 
 		return userCustomerRepository.save(user);
 	}
 
 	public User authenticate(String email, String password) {
 		User user = userCustomerRepository.findByEmail(email).orElseThrow(() -> new EmailNotExistedException(email));
+		
+		if(!passwordEncoder.matches(password, user.getPassword())) {
+			throw new PasswordWrongException();
+		}
 		
 		return user;
 	}

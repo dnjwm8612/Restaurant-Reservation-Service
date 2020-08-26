@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import kr.co.test.eatgo.application.EmailNotExistedException;
 import kr.co.test.eatgo.application.PasswordWrongException;
 import kr.co.test.eatgo.application.UserCustomerService;
+import kr.co.test.eatgo.domain.User;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(SessionController.class)
@@ -33,11 +34,17 @@ class SessionControllerTest {
 	
 	@Test
 	public void createWithValidAttributes() throws Exception {		
+		String email = "tester@example.com";
+		String password = "test";
+		
+		User mockUser  = User.builder().password("ACCESSTOKEN").build();
+		given(userCustomerService.authenticate(email, password)).willReturn(mockUser);
+		
 		mvc.perform(post("/session").contentType(MediaType.APPLICATION_JSON).content("{\"email\":\"tester@example.com\", \"password\":\"test\"}"))
 		.andExpect(status().isCreated()).andExpect(header().string("location", "/session"))
-		.andExpect(content().string("{\"accessToken\":\"ACCESSTOKEN\"}"));
+		.andExpect(content().string("{\"accessToken\":\"ACCESSTOKE\"}"));
 		
-		verify(userCustomerService).authenticate(eq("tester@example.com"), eq("test"));
+		verify(userCustomerService).authenticate(eq(email), eq(password));
 	
 	}
 	
