@@ -1,9 +1,10 @@
 package kr.co.test.eatgo.application;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.hamcrest.MatcherAssert.*; 
+import static org.mockito.ArgumentMatchers.*;
+import static org.hamcrest.CoreMatchers.*;
+import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.*;
 
 import java.util.Optional;
 
@@ -55,6 +56,40 @@ class UserCustomerServiceTest {
 
 		verify(userCustomerRepository, never()).save(any());
 		
+	}
+	
+	@Test
+	public void authenticateWithValidAttributes() {
+		String email = "tester@example.com";
+		String password ="test";
+		
+		User mockUser= User.builder().email(email).build();
+		given(userCustomerRepository.findByEmail(email)).willReturn(Optional.of(mockUser));
+		
+		User user = userCustomerService.authenticate(email, password);
+		
+		assertThat(user.getEmail(), is(email));
+	}
+	
+	@org.junit.Test(expected = EmailNotExistedException.class)
+	public void authenticateWithNotExistedEmail() {
+		String email = "x@example.com";
+		String password ="test";
+		
+		given(userCustomerRepository.findByEmail(email)).willReturn(Optional.empty());
+		
+		userCustomerService.authenticate(email, password);
+		
+	}
+	
+	@org.junit.Test(expected = PasswordWrongException.class)
+	public void authenticateWithWrongPassword() {
+		String email = "tester@example.com";
+		String password ="x";
+		
+		given(userCustomerRepository.findByEmail(email)).willReturn(Optional.empty());
+		
+		userCustomerService.authenticate(email, password);
 	}
 
 }

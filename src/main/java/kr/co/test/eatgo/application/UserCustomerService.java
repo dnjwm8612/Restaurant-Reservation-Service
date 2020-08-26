@@ -30,4 +30,10 @@ public class UserCustomerService {
 		return userCustomerRepository.save(user);
 	}
 
+	public User authenticate(String email, String password) {
+		User user = userCustomerRepository.findByEmail(email).orElseThrow(() -> new EmailNotExistedException(email));
+		
+		return user;
+	}
+
 }
