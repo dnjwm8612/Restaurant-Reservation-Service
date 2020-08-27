@@ -1,5 +1,6 @@
 package kr.co.test.eatgo.interfaces;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -21,6 +22,7 @@ import kr.co.test.eatgo.application.EmailNotExistedException;
 import kr.co.test.eatgo.application.PasswordWrongException;
 import kr.co.test.eatgo.application.UserCustomerService;
 import kr.co.test.eatgo.domain.User;
+import kr.co.test.eatgo.utils.JwtUtil;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(SessionController.class)
@@ -30,19 +32,28 @@ class SessionControllerTest {
 	MockMvc mvc;
 	
 	@MockBean
+	JwtUtil jwtUtil;
+	
+	@MockBean
 	UserCustomerService userCustomerService;
 	
 	@Test
 	public void createWithValidAttributes() throws Exception {		
+		Long id = 1004L;
 		String email = "tester@example.com";
+		String name = "Tester";
 		String password = "test";
 		
-		User mockUser  = User.builder().password("ACCESSTOKEN").build();
+		
+		User mockUser  = User.builder().id(id).name(name).build();
 		given(userCustomerService.authenticate(email, password)).willReturn(mockUser);
+		
+		given(jwtUtil.createToken(id, name)).willReturn("header.payload.signature");
 		
 		mvc.perform(post("/session").contentType(MediaType.APPLICATION_JSON).content("{\"email\":\"tester@example.com\", \"password\":\"test\"}"))
 		.andExpect(status().isCreated()).andExpect(header().string("location", "/session"))
-		.andExpect(content().string("{\"accessToken\":\"ACCESSTOKE\"}"));
+		.andExpect(content().string(containsString("{\"accessToken\":\"header.payload.signature\"}")))
+		.andExpect(content().string(containsString(".")));
 		
 		verify(userCustomerService).authenticate(eq(email), eq(password));
 	

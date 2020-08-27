@@ -18,11 +18,11 @@ public class UserCustomerController {
 	@Autowired
 	UserCustomerService userCustomerService;
 	
-	@PostMapping("/users")
+	@PostMapping("/userss")
 	public ResponseEntity<?> create(@RequestBody User resource) throws URISyntaxException {
 		User user = userCustomerService.registerUser(resource.getEmail(), resource.getName(), resource.getPassword());
 		
-		String url= "/users/" + user.getId();
+		String url= "/userss/" + user.getId();
 		return ResponseEntity.created(new URI(url)).body("{}");
 	}
 	

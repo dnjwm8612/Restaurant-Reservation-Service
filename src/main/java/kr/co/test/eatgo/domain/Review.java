@@ -7,6 +7,8 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,6 +36,6 @@ public class Review {
 	@NotEmpty
 	private String description;
 	
-	@Transient
+	@JsonIgnore
 	private Long restaurantId; 
 }

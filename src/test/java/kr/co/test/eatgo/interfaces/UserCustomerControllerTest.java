@@ -33,8 +33,8 @@ class UserCustomerControllerTest {
 		
 		given(userCustomerService.registerUser("tester@example.com", "Tester", "test")).willReturn(mockUser);
 		
-		mvc.perform(post("/users").contentType(MediaType.APPLICATION_JSON).content("{\"email\":\"tester@example.com\", \"name\":\"Tester\", \"password\":\"test\"}"))
-		.andExpect(status().isCreated()).andExpect(header().string("location", "/users/1004"));
+		mvc.perform(post("/userss").contentType(MediaType.APPLICATION_JSON).content("{\"email\":\"tester@example.com\", \"name\":\"Tester\", \"password\":\"test\"}"))
+		.andExpect(status().isCreated()).andExpect(header().string("location", "/userss/1004"));
 	
 		verify(userCustomerService).registerUser(eq("tester@example.com"), eq("Tester"), eq("test"));
 	}

@@ -2,13 +2,17 @@ package kr.co.test.eatgo.application;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import kr.co.test.eatgo.domain.User;
 import kr.co.test.eatgo.domain.UserCustomerRepository;
 
+@Service
+@Transactional
 public class UserCustomerService {
 
 	PasswordEncoder passwordEncoder;
