@@ -2,6 +2,7 @@ package kr.co.test.eatgo.utils;
 
 import java.security.Key;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -19,6 +20,15 @@ public class JwtUtil {
 		String token = Jwts.builder().claim("userId", userId).claim("name", name).signWith(key, SignatureAlgorithm.HS256).compact();
 		
 		return "header.payload.signature";
+	}
+
+	public Claims getClaims(String token) {
+		Claims claims = Jwts.parser()
+		.setSigningKey(key)
+		.parseClaimsJws(token)
+		.getBody();
+		
+		return claims;
 	}
 
 }
