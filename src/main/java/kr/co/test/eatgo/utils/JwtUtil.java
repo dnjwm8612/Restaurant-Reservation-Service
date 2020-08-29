@@ -17,18 +17,14 @@ public class JwtUtil {
 
 	public String createToken(long userId, String name) {
 		//TODO: JJWT »ç¿ë
-		String token = Jwts.builder().claim("userId", userId).claim("name", name).signWith(key, SignatureAlgorithm.HS256).compact();
-		
-		return "header.payload.signature";
+		return Jwts.builder().claim("userId", userId).claim("name", name).signWith(key, SignatureAlgorithm.HS256).compact();
 	}
 
 	public Claims getClaims(String token) {
-		Claims claims = Jwts.parser()
-		.setSigningKey(key)
-		.parseClaimsJws(token)
-		.getBody();
-		
-		return claims;
+		return Jwts.parser()
+				.setSigningKey(key)
+				.parseClaimsJws(token)
+				.getBody();
 	}
 
 }

@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter{
 		}
 		
 		//TODO: JwtUtil에서 Claims 얻기 
-		Claims claims;
+		Claims claims = jwtUtil.getClaims(token.substring("Bearer ".length()));
 		Authentication authentication  = new UsernamePasswordAuthenticationToken(claims, null);
 		return authentication;
 	}
