@@ -3,6 +3,8 @@ package kr.co.test.eatgo.interfaces;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -22,7 +24,7 @@ public class ReservationController {
 	ReservationService reservationService;
 	
 	@PostMapping("/restaurants/{restaurantId}/reservation")
-	public ResponseEntity<?> create(Authentication authentication ,@PathVariable("restaurantId") Long restaurantId, @RequestBody Reservation resource) throws URISyntaxException {
+	public ResponseEntity<?> create(Authentication authentication ,@PathVariable("restaurantId") Long restaurantId, @Valid @RequestBody Reservation resource) throws URISyntaxException {
 		Claims claims = (Claims) authentication.getPrincipal();
 		
 		Long userId= claims.get("userId", Long.class);
@@ -31,7 +33,7 @@ public class ReservationController {
 		String time = resource.getTime();
 		Integer partySize = resource.getPartySize(); 
 		
-		reservationService.addReservation(restaurantId, userId, name, date, time, partySize);
+		Reservation reservation = reservationService.addReservation(restaurantId, userId, name, date, time, partySize);
 		
 		String url = "/restaurants/"+restaurantId+"/reservation/1";
 		return ResponseEntity.created(new URI(url)).body("{}");
