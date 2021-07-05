@@ -1,4 +1,4 @@
-# Spring Boot_study
+#Restaurant Reservation Service(Spring Boot_study)
 
 ### Restaurant 예약 사이트
 -----------------------
