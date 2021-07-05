@@ -1,6 +1,6 @@
 #Restaurant Reservation Service(Spring Boot_study)
 
-### Restaurant 예약 사이트
+### Restaurant reservation site
 -----------------------
 * 가게 목록 및 메뉴 확인
 * 사용자 회원가입, 정보 수정, 회원탈퇴 
@@ -17,7 +17,7 @@
 * Maven이나 Gradle 같은 빌드 도구를 사용한다(Ant로는 가능하지 않다)
 * 사용하려는 컨포넌트를 종속적으로 추가하면 결합에 필요한 설정이 자동으로 이루어진다.
 
-### Spring Boot 특징
+### Spring Boot Features
 -----------------------
 * 단독으로 실행이 가능한 스프링 애플리케이션을 생성함
 * Tomcat, Jetty, Undertow 를 내장
