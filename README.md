@@ -1,4 +1,4 @@
-#Restaurant Reservation Service(Spring Boot_study)
+# Restaurant Reservation Service(Spring Boot_study)
 
 ### Restaurant reservation site
 -----------------------
